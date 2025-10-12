@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "types": [
+      "vitest",
+      "node"
+    ],
+    "resolveJsonModule": true
+  },
+  "include": [
+    "api",
+    "lib",
+    "tests",
+    "scripts",
+    "prompts",
+    "db",
+    "README.md"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

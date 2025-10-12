@@ -1,0 +1,12 @@
+[
+  {
+    "course": "PHIL 101 F25",
+    "start_date": "2025-10-06",
+    "end_date": "2025-10-12",
+    "topic": "Induction & Hume",
+    "reading_list": [
+      { "title": "Hume, Enquiry §IV", "pages": "25-40" }
+    ],
+    "socratic_seed": "Prefer everyday prediction examples; invite counterexamples after two turns."
+  }
+]
