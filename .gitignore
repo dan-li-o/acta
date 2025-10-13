@@ -1,6 +1,7 @@
 .env
 .env.local
 .env.production
+.env.remote
 node_modules/
 dist/
 .vercel/
