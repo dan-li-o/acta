@@ -40,6 +40,13 @@ export async function processInbound(
   inbound: InboundMessage,
   env: Record<string, string | undefined>
 ): Promise<void> {
+  if ((process.env.DISABLE_PIPELINE ?? '').toLowerCase() === 'true') {
+    logger.info('Inbound message ignored because DISABLE_PIPELINE=true', {
+      carrierMessageId: inbound.carrierMessageId
+    });
+    return;
+  }
+
   // Skip duplicate carrier IDs—Telnyx may retry the same payload.
   if (await isDuplicateMessage(inbound.carrierMessageId)) {
     logger.info('Duplicate message skipped', { carrierMessageId: inbound.carrierMessageId });
@@ -172,6 +179,14 @@ async function recordAndSendReply(input: RecordReplyInput): Promise<void> {
     tokenOut: input.tokenOut ?? null
   });
 
+  if ((process.env.DISABLE_SMS_SEND ?? '').toLowerCase() === 'true') {
+    logger.warn('DISABLE_SMS_SEND=true; skipping Telnyx delivery', {
+      studentId: input.studentId,
+      outboundMessageId: outboundRow.id
+    });
+    return;
+  }
+
   try {
     const carrierId = await sendTelnyxSms(input.studentPhone, input.text);
     if (carrierId) {
@@ -179,6 +194,7 @@ async function recordAndSendReply(input: RecordReplyInput): Promise<void> {
     }
   } catch (error) {
     logger.error('SMS delivery failed', { error: String(error) });
+    await markMessageWithError(outboundRow.id, true);
   }
 }
 

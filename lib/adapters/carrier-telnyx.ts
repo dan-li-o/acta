@@ -105,6 +105,13 @@ export async function sendTelnyxSms(to: string, text: string): Promise<string> {
     payload.messaging_profile_id = profileId;
   }
 
+  logger.info('Sending Telnyx SMS', {
+    to,
+    hasFrom: Boolean(from),
+    hasProfileId: Boolean(profileId),
+    textPreview: text.slice(0, 60)
+  });
+
   const response = await fetch('https://api.telnyx.com/v2/messages', {
     method: 'POST',
     headers: {
@@ -121,5 +128,7 @@ export async function sendTelnyxSms(to: string, text: string): Promise<string> {
   }
 
   const json = (await response.json()) as any;
-  return json?.data?.id ?? json?.data?.carrier_message_id ?? '';
+  const carrierId = json?.data?.id ?? json?.data?.carrier_message_id ?? '';
+  logger.info('Telnyx SMS accepted', { to, carrierId });
+  return carrierId;
 }
