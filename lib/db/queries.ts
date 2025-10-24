@@ -1,3 +1,7 @@
+/**
+ * Typed Supabase query helpers that encapsulate the storage schema.
+ * Keeps the pipeline readable and centralises error handling.
+ */
 import { getClient } from './client';
 import type {
   MessageDirection,

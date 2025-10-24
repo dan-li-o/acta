@@ -1,3 +1,6 @@
+/**
+ * Builds the system prompt that shapes the assistant's tone and weekly focus.
+ */
 import type { WeeklyTopicRow } from '../db/types';
 
 const DEFAULT_PROMPT = `You are Acta, interacting with college students via SMS.
@@ -26,6 +29,7 @@ export function buildSystemPrompt(topic: WeeklyTopicRow | null): string {
   const promptParts = [getBasePrompt()];
 
   if (topic) {
+    // Weekly topic rows let instructors steer the conversation for the current week.
     promptParts.push('--- Current Weekly Guidance ---');
     promptParts.push(`Course topic: ${topic.topic}`);
 

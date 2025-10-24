@@ -1,3 +1,7 @@
+/**
+ * MVP placeholder for rate limiting—wired so the pipeline can plug in
+ * Supabase RPCs or edge KV later without refactoring call sites.
+ */
 export interface RateLimitResult {
   allowed: boolean;
   message?: string;

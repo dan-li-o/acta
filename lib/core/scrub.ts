@@ -1,3 +1,7 @@
+/**
+ * Lightweight PII scrubber. Masks sensitive spans before they reach the LLM
+ * while recording the redactions for audit/storage.
+ */
 interface ScrubPattern {
   piiType: string;
   regex: RegExp;
@@ -16,6 +20,7 @@ export interface ScrubResult {
   redactions: Redaction[];
 }
 
+// Patterns focus on the most common identifiers students might text.
 const PATTERNS: ScrubPattern[] = [
   {
     piiType: 'email',

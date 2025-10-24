@@ -1,3 +1,6 @@
+/**
+ * Shared TypeScript shapes mirroring Supabase table rows and DTOs.
+ */
 export type StudentStatus = 'active' | 'stopped';
 
 export interface StudentRow {

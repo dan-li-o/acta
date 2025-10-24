@@ -1,3 +1,6 @@
+/**
+ * Lazily initialised Supabase client reused across edge invocations.
+ */
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 let cachedClient: SupabaseClient | null = null;

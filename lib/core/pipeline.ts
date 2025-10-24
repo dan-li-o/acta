@@ -1,3 +1,8 @@
+/**
+ * Central orchestration for Acta's conversational loop.
+ * A verified inbound message flows through dedupe, student lookup,
+ * scrubbing, command handling, LLM generation, and outbound dispatch.
+ */
 import {
   createStudent,
   getRecentTurns,
@@ -35,6 +40,7 @@ export async function processInbound(
   inbound: InboundMessage,
   env: Record<string, string | undefined>
 ): Promise<void> {
+  // Skip duplicate carrier IDs—Telnyx may retry the same payload.
   if (await isDuplicateMessage(inbound.carrierMessageId)) {
     logger.info('Duplicate message skipped', { carrierMessageId: inbound.carrierMessageId });
     return;
@@ -52,6 +58,7 @@ export async function processInbound(
     });
   }
 
+  // Persist the raw inbound text and derive a scrubbed version for LLM use.
   const inboundRecord = await insertInboundMessage(student.id, inbound.text);
   const scrubResult = scrubText(inbound.text);
   await updateMessageScrubbed(inboundRecord.id, scrubResult.scrubbed);
@@ -105,6 +112,7 @@ export async function processInbound(
     return;
   }
 
+  // Assemble the LLM call using recent history plus weekly teaching guidance.
   const weeklySeed = await getWeeklySeed(student.course, new Date());
   const systemPrompt = buildSystemPrompt(weeklySeed);
   const history = await getRecentTurns(student.id, 6);

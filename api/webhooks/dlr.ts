@@ -1,3 +1,7 @@
+/**
+ * Edge function that accepts Telnyx delivery receipts.
+ * These callbacks update the stored message status so we can track delivery.
+ */
 import { handleDeliveryStatus } from '../../lib/core/pipeline';
 import { jsonResponse, textResponse } from '../../lib/util/http';
 
@@ -23,6 +27,7 @@ export default async function handler(req: Request): Promise<Response> {
     return textResponse('Missing required fields', 400);
   }
 
+  // Idempotent status updater—safe to call even if Telnyx retries.
   await handleDeliveryStatus(String(carrierMessageId), String(status));
   return jsonResponse({ status: 'ok' });
 }

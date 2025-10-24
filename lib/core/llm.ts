@@ -1,3 +1,6 @@
+/**
+ * Wrapper around the OpenAI Chat Completions API with SMS-friendly safeguards.
+ */
 export interface ConversationTurn {
   role: 'user' | 'assistant';
   content: string;
@@ -13,6 +16,7 @@ const MODEL = process.env.OPENAI_MODEL ?? 'gpt-4o-mini';
 const MAX_CHAR_COUNT = 240;
 const DEFAULT_OPENAI_BASE = 'https://api.openai.com/v1';
 
+// Keeps the assistant concise so replies fit comfortably in a single SMS.
 function trimToCharacterLimit(reply: string): string {
   if (reply.length <= MAX_CHAR_COUNT) {
     return reply;

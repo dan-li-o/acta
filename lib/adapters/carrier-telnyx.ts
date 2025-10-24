@@ -1,3 +1,7 @@
+/**
+ * Telnyx adapter: signature verification, inbound payload normalization,
+ * and outbound SMS API wrapper.
+ */
 import type { InboundMessage } from '../db/types';
 import { logger } from '../util/logger';
 
@@ -10,6 +14,7 @@ interface VerifySignatureOptions {
 
 const encoder = new TextEncoder();
 
+// Telnyx signs `${timestamp}|${rawBody}` using HMAC-SHA256 with the webhook secret.
 async function createHmac(secret: string, payload: string): Promise<string> {
   const key = await crypto.subtle.importKey(
     'raw',
@@ -25,6 +30,7 @@ async function createHmac(secret: string, payload: string): Promise<string> {
 
 export async function verifyTelnyxSignature(options: VerifySignatureOptions): Promise<boolean> {
   if (!options.secret) {
+    // Allow local development without the secret but warn loudly.
     logger.warn('TELNYX_WEBHOOK_SECRET missing; skipping signature verification');
     return true;
   }

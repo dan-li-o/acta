@@ -1,3 +1,7 @@
+/**
+ * Placeholder Twilio adapter for future carrier support.
+ * The MVP only wires Telnyx, so these throw to make misuse obvious.
+ */
 import type { InboundMessage } from '../db/types';
 
 export function verifyTwilioSignature(): boolean {

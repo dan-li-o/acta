@@ -1,3 +1,7 @@
+/**
+ * Minimal structured logger that writes JSON blobs to stdout/stderr.
+ * Keeps Cloud/Vercel logs consistent without pulling in a heavy dependency.
+ */
 type LogLevel = 'info' | 'warn' | 'error';
 
 interface LogPayload {

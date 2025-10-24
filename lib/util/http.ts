@@ -1,3 +1,6 @@
+/**
+ * Small helpers for returning consistent HTTP responses from edge functions.
+ */
 interface JsonResponseOptions {
   status?: number;
   headers?: HeadersInit;

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Sends a sample Telnyx delivery receipt to the local DLR endpoint.
 
 set -euo pipefail
 

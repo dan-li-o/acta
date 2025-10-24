@@ -1,3 +1,6 @@
+/**
+ * Minimal STOP/START/HELP command support so students can manage subscription state.
+ */
 import { createStudent, getStudentByPhone, updateStudentStatus } from '../db/queries';
 import type { StudentRow } from '../db/types';
 
@@ -25,6 +28,7 @@ export async function handleCommand(
   command: Command,
   ctx: CommandContext
 ): Promise<string> {
+  // Most commands pivot on whether we already know this phone number.
   let student: StudentRow | null = await getStudentByPhone(ctx.fromNumber);
 
   if (command === 'START') {
